@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { MovieService } from '../../core/services/movie.service';
+import { EventService } from '../../core/services/event.service';
 import { AuthService } from '../../core/services/auth.service';
 
 interface HeroMovie {
@@ -251,7 +251,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   heroMovies = signal<HeroMovie[]>([]);
 
   constructor(
-    private http: HttpClient,
+    private movieService: MovieService,
+    private eventService: EventService,
     public router: Router,
     private authService: AuthService
   ) {}
@@ -300,11 +301,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadBanners() {
-    console.log('🎬 Loading banners from:', `${environment.apiUrl}/movies/now-showing`);
+    console.log('🎬 Loading banners...');
     const banners: HeroMovie[] = [];
     
     // Load movies first (max 3 for banners to leave room for 1 event)
-    this.http.get<any>(`${environment.apiUrl}/movies/now-showing`).subscribe({
+    this.movieService.getNowShowingMovies().subscribe({
       next: (movieResponse) => {
         console.log('📦 Movies API Response:', movieResponse);
         const movies = (movieResponse.data || []).slice(0, 3); // Limit to 3 movies
@@ -312,7 +313,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         
         movies.forEach((movie: any) => {
           const imageUrl = movie.bannerImageUrl || movie.displayImageUrl;
-          const fullImageUrl = imageUrl ? this.getImageUrl(imageUrl) : 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1000';
+          const fullImageUrl = imageUrl ? this.movieService.getImageUrl(imageUrl) : 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1000';
           banners.push({
             id: movie.movieId,
             title: movie.title.split(' ').slice(0, 2).join(' ').toUpperCase(),
@@ -328,7 +329,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         
         // Load events if we have space (max 1 event, total max 4 banners)
         if (banners.length < 4) {
-          this.http.get<any>(`${environment.apiUrl}/events/upcoming`).subscribe({
+          this.eventService.getUpcomingEvents().subscribe({
             next: (eventResponse) => {
               const remainingSlots = 4 - banners.length; // Calculate remaining slots
               const events = (eventResponse.data || []).slice(0, Math.min(1, remainingSlots)); // Max 1 event
@@ -337,7 +338,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               events.forEach((event: any) => {
                 if (banners.length < 4) {
                   const imageUrl = event.bannerImageUrl || event.displayImageUrl;
-                  const fullImageUrl = imageUrl ? this.getImageUrl(imageUrl) : 'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?q=80&w=1000';
+                  const fullImageUrl = imageUrl ? this.eventService.getImageUrl(imageUrl) : 'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?q=80&w=1000';
                   banners.push({
                     id: event.eventId,
                     title: event.title.split(' ').slice(0, 2).join(' ').toUpperCase(),
@@ -376,8 +377,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadMovies() {
-    console.log('🎬 Loading movies from:', `${environment.apiUrl}/movies/now-showing`);
-    this.http.get<any>(`${environment.apiUrl}/movies/now-showing`).subscribe({
+    console.log('🎬 Loading movies...');
+    this.movieService.getNowShowingMovies().subscribe({
       next: (response) => {
         console.log('📦 Movies API Response:', response);
         this.movies = response.data.slice(0, 4);
@@ -391,22 +392,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getImageUrl(path: string): string {
-    if (!path) {
-      console.log('⚠️ No path provided, using placeholder');
-      return 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1000';
-    }
-    if (path.startsWith('http')) {
-      console.log('✅ Already absolute URL:', path);
-      return path;
-    }
-    const fullUrl = `http://localhost:8080${path}`;
-    console.log(`🔗 Converting "${path}" to "${fullUrl}"`);
-    return fullUrl;
+    return this.movieService.getImageUrl(path);
   }
 
   loadEvents() {
-    console.log('🎪 Loading events from:', `${environment.apiUrl}/events/upcoming`);
-    this.http.get<any>(`${environment.apiUrl}/events/upcoming`).subscribe({
+    console.log('🎪 Loading events...');
+    this.eventService.getUpcomingEvents().subscribe({
       next: (response) => {
         console.log('📦 Events API Response:', response);
         const allEvents = response.data || response || [];

@@ -34,6 +34,26 @@ export const routes: Routes = [
     loadChildren: () => import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES)
   },
   {
+    path: 'help',
+    loadComponent: () => import('./features/support/help.component').then(m => m.HelpComponent)
+  },
+  {
+    path: 'contact',
+    loadComponent: () => import('./features/support/contact.component').then(m => m.ContactComponent)
+  },
+  {
+    path: 'faq',
+    loadComponent: () => import('./features/support/faq.component').then(m => m.FaqComponent)
+  },
+  {
+    path: 'terms',
+    loadComponent: () => import('./features/support/terms.component').then(m => m.TermsComponent)
+  },
+  {
+    path: 'privacy',
+    loadComponent: () => import('./features/support/privacy.component').then(m => m.PrivacyComponent)
+  },
+  {
     path: '**',
     redirectTo: ''
   }
