@@ -253,10 +253,10 @@ export class EventFormComponent implements OnInit {
         });
         
         if (event.displayImageUrl) {
-          this.displayImagePreview = `http://localhost:8080${event.displayImageUrl}`;
+          this.displayImagePreview = `http://localhost:8081${event.displayImageUrl}`;
         }
         if (event.bannerImageUrl) {
-          this.bannerImagePreview = `http://localhost:8080${event.bannerImageUrl}`;
+          this.bannerImagePreview = `http://localhost:8081${event.bannerImageUrl}`;
         }
         console.log('Event loaded for editing:', event);
       },

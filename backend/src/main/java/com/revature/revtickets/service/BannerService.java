@@ -33,7 +33,7 @@ public class BannerService {
 
     public Banner createBanner(Banner banner, MultipartFile imageFile) throws IOException {
         if (imageFile != null && !imageFile.isEmpty()) {
-            String imageUrl = fileUploadUtil.uploadFile(imageFile, "banners");
+            String imageUrl = fileUploadUtil.uploadFile(imageFile, "banner");
             banner.setBannerImageUrl(imageUrl);
         }
         return bannerRepository.save(banner);
@@ -51,7 +51,7 @@ public class BannerService {
             if (banner.getBannerImageUrl() != null) {
                 fileUploadUtil.deleteFile(banner.getBannerImageUrl());
             }
-            String imageUrl = fileUploadUtil.uploadFile(imageFile, "banners");
+            String imageUrl = fileUploadUtil.uploadFile(imageFile, "banner");
             banner.setBannerImageUrl(imageUrl);
         }
 

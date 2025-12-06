@@ -49,12 +49,12 @@ public class EventService {
         mapDTOToEntity(dto, event);
 
         if (displayImage != null && !displayImage.isEmpty()) {
-            String imageUrl = fileUploadUtil.uploadFile(displayImage, "events");
+            String imageUrl = fileUploadUtil.uploadFile(displayImage, "display");
             event.setDisplayImageUrl(imageUrl);
         }
 
         if (bannerImage != null && !bannerImage.isEmpty()) {
-            String bannerUrl = fileUploadUtil.uploadFile(bannerImage, "banners");
+            String bannerUrl = fileUploadUtil.uploadFile(bannerImage, "banner");
             event.setBannerImageUrl(bannerUrl);
         }
 
@@ -69,7 +69,7 @@ public class EventService {
             if (event.getDisplayImageUrl() != null) {
                 fileUploadUtil.deleteFile(event.getDisplayImageUrl());
             }
-            String imageUrl = fileUploadUtil.uploadFile(displayImage, "events");
+            String imageUrl = fileUploadUtil.uploadFile(displayImage, "display");
             event.setDisplayImageUrl(imageUrl);
         }
 
@@ -77,7 +77,7 @@ public class EventService {
             if (event.getBannerImageUrl() != null) {
                 fileUploadUtil.deleteFile(event.getBannerImageUrl());
             }
-            String bannerUrl = fileUploadUtil.uploadFile(bannerImage, "banners");
+            String bannerUrl = fileUploadUtil.uploadFile(bannerImage, "banner");
             event.setBannerImageUrl(bannerUrl);
         }
 

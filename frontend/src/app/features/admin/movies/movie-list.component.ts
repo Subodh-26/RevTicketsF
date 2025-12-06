@@ -141,7 +141,7 @@ export class MovieListComponent implements OnInit {
   getImageUrl(path: string): string {
     if (!path) return 'https://via.placeholder.com/200x300?text=No+Image';
     if (path.startsWith('http')) return path;
-    return `http://localhost:8080${path}`;  // path is already /display/filename
+    return `http://localhost:8081${path}`;  // path is already /display/filename
   }
 
   addMovie() {

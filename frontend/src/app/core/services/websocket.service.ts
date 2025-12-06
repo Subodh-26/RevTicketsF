@@ -16,7 +16,7 @@ export class WebSocketService {
   connect(showId: number) {
     if (this.connected) return;
 
-    const socket = new SockJS('http://localhost:8080/ws');
+    const socket = new SockJS('http://localhost:8081/ws');
     this.stompClient = Stomp.over(socket);
     
     this.stompClient.connect({}, () => {

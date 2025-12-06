@@ -57,12 +57,12 @@ public class MovieService {
         mapDTOToEntity(dto, movie);
 
         if (displayImage != null && !displayImage.isEmpty()) {
-            String imageUrl = fileUploadUtil.uploadFile(displayImage, "movies");
+            String imageUrl = fileUploadUtil.uploadFile(displayImage, "display");
             movie.setDisplayImageUrl(imageUrl);
         }
 
         if (bannerImage != null && !bannerImage.isEmpty()) {
-            String bannerUrl = fileUploadUtil.uploadFile(bannerImage, "banners");
+            String bannerUrl = fileUploadUtil.uploadFile(bannerImage, "banner");
             movie.setBannerImageUrl(bannerUrl);
         }
 
@@ -77,7 +77,7 @@ public class MovieService {
             if (movie.getDisplayImageUrl() != null) {
                 fileUploadUtil.deleteFile(movie.getDisplayImageUrl());
             }
-            String imageUrl = fileUploadUtil.uploadFile(displayImage, "movies");
+            String imageUrl = fileUploadUtil.uploadFile(displayImage, "display");
             movie.setDisplayImageUrl(imageUrl);
         }
 
@@ -85,7 +85,7 @@ public class MovieService {
             if (movie.getBannerImageUrl() != null) {
                 fileUploadUtil.deleteFile(movie.getBannerImageUrl());
             }
-            String bannerUrl = fileUploadUtil.uploadFile(bannerImage, "banners");
+            String bannerUrl = fileUploadUtil.uploadFile(bannerImage, "banner");
             movie.setBannerImageUrl(bannerUrl);
         }
 

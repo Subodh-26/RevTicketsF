@@ -224,10 +224,10 @@ export class MovieFormComponent implements OnInit {
         const movie = response.data || response;
         this.movieForm.patchValue(movie);
         if (movie.displayImageUrl) {
-          this.posterPreview = `http://localhost:8080${movie.displayImageUrl}`;
+          this.posterPreview = `http://localhost:8081${movie.displayImageUrl}`;
         }
         if (movie.bannerImageUrl) {
-          this.bannerPreview = `http://localhost:8080${movie.bannerImageUrl}`;
+          this.bannerPreview = `http://localhost:8081${movie.bannerImageUrl}`;
         }
       }
     });

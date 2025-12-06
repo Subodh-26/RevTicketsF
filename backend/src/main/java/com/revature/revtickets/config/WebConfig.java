@@ -35,10 +35,21 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // Serve all image types from the actual location where they're stored
         registry.addResourceHandler("/display/**")
             .addResourceLocations("file:backend/public/display/");
-
+        
         registry.addResourceHandler("/banner/**")
             .addResourceLocations("file:backend/public/banner/");
+            
+        // Also serve from movies, events, banners subdirectories under images
+        registry.addResourceHandler("/movies/**")
+            .addResourceLocations("file:public/images/movies/", "file:backend/public/display/");
+        
+        registry.addResourceHandler("/events/**")
+            .addResourceLocations("file:public/images/events/", "file:backend/public/display/");
+        
+        registry.addResourceHandler("/banners/**")
+            .addResourceLocations("file:public/images/banners/", "file:backend/public/banner/");
     }
 }

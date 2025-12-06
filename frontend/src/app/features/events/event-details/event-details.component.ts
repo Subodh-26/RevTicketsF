@@ -239,7 +239,7 @@ export class EventDetailsComponent implements OnInit {
     }
     if (path.startsWith('http')) return path;
     // Backend returns paths like /display/filename.jpg or /banner/filename.jpg
-    const fullUrl = `http://localhost:8080${path}`;
+    const fullUrl = `http://localhost:8081${path}`;
     console.log('Event detail image URL:', fullUrl, 'from path:', path);
     return fullUrl;
   }

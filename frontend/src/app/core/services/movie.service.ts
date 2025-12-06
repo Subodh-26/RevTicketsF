@@ -99,6 +99,6 @@ export class MovieService {
   getImageUrl(path: string): string {
     if (!path) return 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1000';
     if (path.startsWith('http')) return path;
-    return `http://localhost:8080${path}`;
+    return `http://localhost:8081${path}`;
   }
 }
